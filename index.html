@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main">
+      <h1 class="logo">Login</h1>
+      <div class="container">
+        <input type="text" placeholder="ID" id="id" class="account" />
+        <input
+          type="password"
+          placeholder="Password"
+          id="password"
+          class="account"
+        />
+        <button id="login" class="account">login</button>
+        <p id="alert" class="account"></p>
+      </div>
+    </div>
+    <p id="showText"></p>
+
+    <script src="login.js"></script>
+  </body>
+
+  <style>
+    .main {
+      width: 250px;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+    }
+
+    .logo {
+      margin-top: 0px;
+      margin-bottom: 40px;
+    }
+
+    #login {
+      width: 100%;
+      background-color: skyblue;
+      border-color: transparent;
+      color: white;
+    }
+
+    .account {
+      display: block;
+      margin-bottom: 3px;
+      padding: 3px;
+      border: 1px solid lightgray;
+      border-radius: 3px;
+    }
+
+    #alert {
+      border-color: transparent;
+    }
+  </style>
+</html>
