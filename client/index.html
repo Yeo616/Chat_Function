@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket - client</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-slate-300 p-0 m-0">
+    <header class="bg-slate-900 text-slate-100 mb-12">
+      <div class="container mx-auto">
+        <ul class="flex py-4">
+          <li class="list-none">
+            <a class="no-underline text-slate-100 mr-4 text-xl" href="#"
+              >Home</a
+            >
+          </li>
+          <li class="list-none">
+            <a class="no-underline text-slate-100 mr-4 text-xl" href="#"
+              >About</a
+            >
+          </li>
+          <li class="list-none">
+            <a class="no-underline text-slate-100 mr-4 text-xl" href="#"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
+    </header>
+    <main>
+      <div class="container mx-auto">
+        <h1 class="text-xl text-slate-800 font-bold">Chat App</h1>
+        <div
+          class="message-box w-full flex-col h-96 overflow-y-scroll bg-slate-500"
+          id="message-box"
+        >
+          <!-- <div class="w-full flex justify-start">
+                    <div class="box-bordered p-1 bg-slate-500 w-8/12 text-slate-100 rounded mb-1">
+                        <p>His message</p>
+                        <p>Email</p>
+                    </div>
+                </div> -->
+        </div>
+        <form id="message-form">
+          <div class="input-group mb-2 flex flex-row">
+            <input
+              type="text"
+              id="message"
+              class="border-0 bg-slate-800 text-slate-300 py-2 px-1 w-11/12 outline-0"
+              placeholder="Enter your message"
+            />
+            <button
+              type="submit"
+              class="bg-slate-900 text-slate-300 border-0 w-1/12 outline-0"
+            >
+              Send
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer class="bg-slate-600 text-slate-400 w-full py-2 mt-80">
+      <div class="container mx-auto">This is footer</div>
+    </footer>
+    <script src="main.js"></script>
+  </body>
+</html>
