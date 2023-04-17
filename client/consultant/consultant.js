@@ -1,10 +1,3 @@
-const nav = document.getElementById("navi");
-// nav.innerHTML =
-//   '<object type="text/html" data="chat_navigation.html" class="w-full" ></object>';
-const chat_box = document.getElementById("chat-box");
-chat_box.innerHTML =
-  '<object type="text/html" data="main_chat.html" class="w-full" ></object>';
-
 document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   DOMEvent.preventDefault();
 

@@ -6,52 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WebSocket - client</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./navigation/side_nav.js"></script>
+    <script src="./navigation/chat_navigation.js"></script>
   </head>
 
   <body class="bg-slate-300 m-0 w-full h-auto">
-    <div id="sideNav" class="flex space-x-3">
-<side-nav></side-nav>
+    <div id="sideNav" class="flex space-x-3 h-full">
+      <div class="flex-2 p-1 bg-blue-900">
+        <side-nav></side-nav>
       </div>
       <div class="flex-1 p-1">
-        <header class="bg-slate-900 mb-12"></header>
         <main>
           <div class="container mx-auto">
-            <div id="navigation"></div>
-            <div id="navi" class="bg-slate-900 container mx-auto">
-              <ul class="flex py-4">
-                <li class="list-none">
-                  <a
-                    class="no-underline text-slate-100 mr-4 text-xl"
-                    href="./consultant.html"
-                    >Main Chat</a
-                  >
-                </li>
-                <li class="list-none">
-                  <a
-                    class="no-underline text-slate-100 mr-4 text-xl"
-                    href="./test.html"
-                    >test</a
-                  >
-                </li>
-                <li class="list-none">
-                  <a class="no-underline text-slate-100 mr-4 text-xl" href="#"
-                    >Contact</a
-                  >
-                </li>
-              </ul>
-            </div>
+            <chat-nav></chat-nav>
             <h3>Main chat</h3>
             <div
               class="message-box w-full flex-col h-96 overflow-y-scroll bg-slate-500"
               id="message-box"
-            >
-              <!-- <div class="w-full flex justify-start">
-                    <div class="box-bordered p-1 bg-slate-500 w-8/12 text-slate-100 rounded mb-1">
-                        <p>His message</p>
-                        <p>Email</p>
-                    </div>
-                </div> -->
-            </div>
+            ></div>
             <form id="message-form">
               <div class="input-group mb-2 flex flex-row">
                 <input
