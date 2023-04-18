@@ -1,12 +1,12 @@
 from fastapi import WebSocketDisconnect,WebSocket,WebSocketException,FastAPI,HTTPException
 from copy import deepcopy, copy
 import json
-import programs
 from fastapi.middleware.cors import CORSMiddleware
+# from .routers.programs import programs
 
 app = FastAPI() 
 
-app.include_router(programs.router)
+# app.include_router(program.router)
 
 # CORS: 허용 origin
 origins = [

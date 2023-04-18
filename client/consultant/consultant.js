@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   const messageFormEl = document.getElementById("message-form");
   const messageEl = document.getElementById("message");
   const messageBoxEl = document.getElementById("message-box");
-  // const programInfo = document.getElementById("program-info");
-  // programInfo.addEventListener("click", programInfoSend);
 
   const programSearchBtn = document.getElementById("programSearchBtn");
   programSearchBtn.addEventListener("click", programSearchBtnHandler);
@@ -21,7 +19,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       programList.removeChild(programList.firstChild);
     }
 
-    const response = await fetch("http://127.0.0.1:8000/program/program-done");
+    const response = await fetch("http://127.0.0.1:8000/program/done");
     console.log(response);
     const data = await response.json();
     console.log(data);
@@ -58,6 +56,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       );
 
       program_title = i["program_title"];
+      program_url = i["url"];
       p1.textContent = `Title: ${program_title}`;
       btn.appendChild(p1);
       p2.textContent = `period: ${startDateStr} ~ ${endDateStr}`;
@@ -66,11 +65,16 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       // 클릭 이벤트 리스너 추가, 클로저 개념 사용
       btn.addEventListener(
         "click",
-        (function (program_title, startDateStr, endDateStr) {
+        (function (program_title, program_url, startDateStr, endDateStr) {
           return function () {
-            programInfoSend(program_title, startDateStr, endDateStr);
+            programInfoSend(
+              program_title,
+              program_url,
+              startDateStr,
+              endDateStr
+            );
           };
-        })(program_title, startDateStr, endDateStr)
+        })(program_title, program_url, startDateStr, endDateStr)
       );
     });
   }
@@ -82,9 +86,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       programList.removeChild(programList.firstChild);
     }
 
-    const response = await fetch(
-      "http://127.0.0.1:8000/program/program-recent"
-    );
+    const response = await fetch("http://127.0.0.1:8000/program/recent");
     console.log(response);
     const data = await response.json();
     console.log(data);
@@ -121,6 +123,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       );
 
       program_title = i["program_title"];
+      program_url = i["url"];
       p1.textContent = `Title: ${program_title}`;
       btn.appendChild(p1);
       p2.textContent = `period: ${startDateStr} ~ ${endDateStr}`;
@@ -129,18 +132,29 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       // 클릭 이벤트 리스너 추가, 클로저 개념 사용
       btn.addEventListener(
         "click",
-        (function (program_title, startDateStr, endDateStr) {
+        (function (program_title, program_url, startDateStr, endDateStr) {
           return function () {
-            programInfoSend(program_title, startDateStr, endDateStr);
+            programInfoSend(
+              program_title,
+              program_url,
+              startDateStr,
+              endDateStr
+            );
           };
-        })(program_title, startDateStr, endDateStr)
+        })(program_title, program_url, startDateStr, endDateStr)
       );
     });
   }
 
   // 메세지 클릭하면, 대화창으로 가는 함수
-  function programInfoSend(program_title, startDateStr, endDateStr) {
+  function programInfoSend(
+    program_title,
+    program_url,
+    startDateStr,
+    endDateStr
+  ) {
     const programData = `Title: ${program_title}, period: ${startDateStr} ~ ${endDateStr}`;
+    const programUrl = program_url;
     console.log("programData : ", programData);
 
     let sideOff = "justify-end";
@@ -149,7 +163,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
     const msgString = `
             <div class="w-full flex ${sideOff}">
                 <div class="box-bordered p-1 bg-blue-500 w-5/12 text-slate-100 rounded mb-1">
-                <p>${programData}</p>
+                <p><a href = "https://${programUrl}">${programData}</a></p>
                 </div>
             </div>
             `;
