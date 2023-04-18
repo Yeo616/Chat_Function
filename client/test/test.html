@@ -16,7 +16,7 @@
 
     const jsonList = document.getElementById("json_list");
     const button = document.getElementById("btn");
-    const btn = button.addEventListener("click", jsonHandler);
+    button.addEventListener("click", jsonHandler);
 
     async function jsonHandler() {
       // 다시 불러낼 때, 중복되어 호출 못하게 삭제

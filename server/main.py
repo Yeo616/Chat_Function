@@ -1,8 +1,11 @@
 from fastapi import WebSocketDisconnect,WebSocket,WebSocketException,FastAPI,HTTPException
 from copy import deepcopy, copy
 import json
+import program
 
 app = FastAPI() 
+
+app.include_router(program.router)
 
 @app.get('/')
 def test_index():

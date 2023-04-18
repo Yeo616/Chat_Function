@@ -10,7 +10,30 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   const searchBtn = document.getElementById("searchBtn");
   searchBtn.addEventListener("click", searchHandler);
 
-  async function searchHandler() {}
+  async function searchHandler() {
+    // 몽고DB에 연결해서 리스트로 뽑기
+    const jsonList = document.getElementById("json_list");
+
+    // 다시 불러낼 때, 중복되어 호출 못하게 삭제
+    while (jsonList.firstChild) {
+      jsonList.removeChild(jsonList.firstChild);
+    }
+
+    const response = await fetch();
+    // "https://pokeapi.co/api/v2/ability/battle-armor"
+
+    const data = await response.json();
+    console.log(data);
+
+    // const items = data["pokemon"];
+    // console.log("items : ", items);
+
+    items.forEach((i) => {
+      const li = document.createElement("li");
+      // li.textContent = `name: ${i["pokemon"]["name"]}, url: ${i["pokemon"]["url"]}`;
+      jsonList.appendChild(li);
+    });
+  }
 
   function programInfoSend() {
     let programData = "test program";
