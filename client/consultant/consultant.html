@@ -44,7 +44,7 @@
         </main>
       </div>
 
-      <div class="flex-1 p-1 bg-white">
+      <div class="flex-1.5 p-1 w-1/4 bg-white t-5">
         <p>it's program,serach area</p>
 
         <form id="message-form">
@@ -64,22 +64,26 @@
             </button>
           </div>
         </form>
-
-        <ul
-          id="program"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4"
+        <button
+          id="programSearchBtn"
+          type="submit"
+          class="shadow-inner p-3 m-3 bg-blue-500 text-slate-300 border-0 rounded-lg outline-1"
         >
+          Program Search
+        </button>
+        <button
+          id="programDoneBtn"
+          type="submit"
+          class="shadow-inner p-3 m-3 bg-gray-400 text-gray-100 border-0 rounded-lg outline-1"
+        >
+          past-programs
+        </button>
+        <ul id="program" class="mx-4 gap-4">
           <li id="program-info" class="hover:shadow-lg flex rounded-lg">
             <!-- <a
               href="/new"
               class="hover:border-transparent hover:bg-blue-400 bg-blue-100 hover:shadow-xs w-full flex items-center justify-center rounded-lg border-2 border-dashed border-gray-200 text-sm font-medium py-4"
             > -->
-            <p
-              class="hover:border-transparent hover:bg-blue-400 bg-blue-100 hover:shadow-xs w-full flex items-center justify-center rounded-lg border-2 border-dashed border-gray-200 text-sm font-medium py-4"
-            >
-              {program}
-            </p>
-
             <!-- </a> -->
           </li>
         </ul>

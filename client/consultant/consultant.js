@@ -4,40 +4,143 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   const messageFormEl = document.getElementById("message-form");
   const messageEl = document.getElementById("message");
   const messageBoxEl = document.getElementById("message-box");
-  const programInfo = document.getElementById("program-info");
-  programInfo.addEventListener("click", programInfoSend);
+  // const programInfo = document.getElementById("program-info");
+  // programInfo.addEventListener("click", programInfoSend);
 
-  const searchBtn = document.getElementById("searchBtn");
-  searchBtn.addEventListener("click", searchHandler);
+  const programSearchBtn = document.getElementById("programSearchBtn");
+  programSearchBtn.addEventListener("click", programSearchBtnHandler);
+  const programDoneBtn = document.getElementById("programDoneBtn");
+  programDoneBtn.addEventListener("click", programDoneBtnHandler);
 
-  async function searchHandler() {
-    // 몽고DB에 연결해서 리스트로 뽑기
-    const jsonList = document.getElementById("json_list");
+  const programList = document.getElementById("program");
 
+  // 만료된 프로그램 불러오기
+  async function programDoneBtnHandler() {
     // 다시 불러낼 때, 중복되어 호출 못하게 삭제
-    while (jsonList.firstChild) {
-      jsonList.removeChild(jsonList.firstChild);
+    while (programList.firstChild) {
+      programList.removeChild(programList.firstChild);
     }
 
-    const response = await fetch();
-    // "https://pokeapi.co/api/v2/ability/battle-armor"
-
+    const response = await fetch("http://127.0.0.1:8000/program/program-done");
+    console.log(response);
     const data = await response.json();
     console.log(data);
 
-    // const items = data["pokemon"];
-    // console.log("items : ", items);
+    const items = data["result"];
+    console.log("items : ", items);
 
     items.forEach((i) => {
       const li = document.createElement("li");
-      // li.textContent = `name: ${i["pokemon"]["name"]}, url: ${i["pokemon"]["url"]}`;
-      jsonList.appendChild(li);
+      li.className =
+        "hover:border-transparent hover:bg-blue-400 bg-blue-100 hover:shadow-xs hover:shadow-lg flex w-full rounded-lg border-2 border-gray-200 text-sm font-medium my-4 py-4";
+      programList.appendChild(li);
+
+      const btn = document.createElement("button");
+      const p1 = document.createElement("p");
+      p1.className = "text-lg text-black font-semibold";
+      const p2 = document.createElement("p");
+      li.appendChild(btn);
+      // 숫자 값으로 날짜 객체 생성
+      const startDate = new Date(i["period_for_class_start"]["$date"]);
+      const endDate = new Date(i["period_for_class_end"]["$date"]);
+
+      console.log("Start date:", i["period_for_class_start"]["$date"]);
+      console.log("End date:", i["period_for_class_end"]["$date"]);
+
+      // 날짜 객체를 문자열로 변환 (사람이 읽을 수 있는 형식)
+      const startDateStr =
+        startDate.toLocaleDateString() + " " + startDate.toLocaleTimeString();
+      const endDateStr =
+        endDate.toLocaleDateString() + " " + endDate.toLocaleTimeString();
+      console.log(
+        "startDate.toLocaleDateString() :",
+        startDate.toLocaleDateString()
+      );
+
+      program_title = i["program_title"];
+      p1.textContent = `Title: ${program_title}`;
+      btn.appendChild(p1);
+      p2.textContent = `period: ${startDateStr} ~ ${endDateStr}`;
+      btn.appendChild(p2);
+
+      // 클릭 이벤트 리스너 추가, 클로저 개념 사용
+      btn.addEventListener(
+        "click",
+        (function (program_title, startDateStr, endDateStr) {
+          return function () {
+            programInfoSend(program_title, startDateStr, endDateStr);
+          };
+        })(program_title, startDateStr, endDateStr)
+      );
     });
   }
 
-  function programInfoSend() {
-    let programData = "test program";
+  // 오늘 날짜 기준 이후 프로그램 불러오기
+  async function programSearchBtnHandler() {
+    // 다시 불러낼 때, 중복되어 호출 못하게 삭제
+    while (programList.firstChild) {
+      programList.removeChild(programList.firstChild);
+    }
 
+    const response = await fetch(
+      "http://127.0.0.1:8000/program/program-recent"
+    );
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+
+    const items = data["result"];
+    console.log("items : ", items);
+
+    items.forEach((i) => {
+      const li = document.createElement("li");
+      li.className =
+        "hover:border-transparent hover:bg-blue-400 bg-blue-100 hover:shadow-xs hover:shadow-lg flex w-full rounded-lg border-2 border-gray-200 text-sm font-medium my-4 py-4";
+      programList.appendChild(li);
+
+      const btn = document.createElement("button");
+      const p1 = document.createElement("p");
+      p1.className = "text-lg text-black font-semibold";
+      const p2 = document.createElement("p");
+      li.appendChild(btn);
+      // 숫자 값으로 날짜 객체 생성
+      const startDate = new Date(i["period_for_class_start"]["$date"]);
+      const endDate = new Date(i["period_for_class_end"]["$date"]);
+
+      console.log("Start date:", i["period_for_class_start"]["$date"]);
+      console.log("End date:", i["period_for_class_end"]["$date"]);
+
+      // 날짜 객체를 문자열로 변환 (사람이 읽을 수 있는 형식)
+      const startDateStr =
+        startDate.toLocaleDateString() + " " + startDate.toLocaleTimeString();
+      const endDateStr =
+        endDate.toLocaleDateString() + " " + endDate.toLocaleTimeString();
+      console.log(
+        "startDate.toLocaleDateString() :",
+        startDate.toLocaleDateString()
+      );
+
+      program_title = i["program_title"];
+      p1.textContent = `Title: ${program_title}`;
+      btn.appendChild(p1);
+      p2.textContent = `period: ${startDateStr} ~ ${endDateStr}`;
+      btn.appendChild(p2);
+
+      // 클릭 이벤트 리스너 추가, 클로저 개념 사용
+      btn.addEventListener(
+        "click",
+        (function (program_title, startDateStr, endDateStr) {
+          return function () {
+            programInfoSend(program_title, startDateStr, endDateStr);
+          };
+        })(program_title, startDateStr, endDateStr)
+      );
+    });
+  }
+
+  // 메세지 클릭하면, 대화창으로 가는 함수
+  function programInfoSend(program_title, startDateStr, endDateStr) {
+    const programData = `Title: ${program_title}, period: ${startDateStr} ~ ${endDateStr}`;
     console.log("programData : ", programData);
 
     let sideOff = "justify-end";
@@ -57,16 +160,44 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
 
     // 메세지 전송
     socket.send(JSON.stringify(programData));
-    // socket.send(JSON.stringify({ message: msgString }));
+
     // DOM 요소 추가
     messageBoxEl.append(msgEl);
-
-    // // 서버로부터 메시지를 받는 이벤트 핸들러 등록
-    // socket.addEventListener("message", (socketEvent) => {
-    //   console.log("Message from server ", socketEvent.data);
-    // });
   }
+  // function programInfoSend() {
+  //   let programData = "test program";
+
+  //   console.log("programData : ", programData);
+
+  //   let sideOff = "justify-end";
+
+  //   // 메세지 생성
+  //   const msgString = `
+  //           <div class="w-full flex ${sideOff}">
+  //               <div class="box-bordered p-1 bg-blue-500 w-5/12 text-slate-100 rounded mb-1">
+  //               <p>${programData}</p>
+  //               </div>
+  //           </div>
+  //           `;
+  //   // DOM 요소 생성
+  //   const domParser = new DOMParser();
+  //   const msgEl = domParser.parseFromString(msgString, "text/html").body
+  //     .firstElementChild;
+
+  //   // 메세지 전송
+  //   socket.send(JSON.stringify(programData));
+  //   // socket.send(JSON.stringify({ message: msgString }));
+  //   // DOM 요소 추가
+  //   messageBoxEl.append(msgEl);
+
+  //   // // 서버로부터 메시지를 받는 이벤트 핸들러 등록
+  //   // socket.addEventListener("message", (socketEvent) => {
+  //   //   console.log("Message from server ", socketEvent.data);
+  //   // });
+  // }
+
   // Unique ID for all user
+
   const userId = window.crypto.randomUUID();
   function messageAppend(myMessage, msgContent) {
     let sideOff = "justify-start",

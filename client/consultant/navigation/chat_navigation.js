@@ -1,3 +1,5 @@
+// 챗 윗부분의 네비게이션
+
 class ChatNav extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `  
