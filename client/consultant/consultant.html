@@ -46,17 +46,27 @@
 
       <div class="flex-1 p-1 bg-white">
         <p>it's program,serach area</p>
-        <form>
-          <input
-            class="focus:border-light-blue-500 focus:ring-1 focus:ring-light-blue-500 focus:outline-none text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 pl-10"
-            type="text"
-            placeholder="search info"
-          />
+
+        <form id="message-form">
+          <div class="input-group mb-2 flex flex-row">
+            <input
+              type="text"
+              id="message"
+              class="focus:border-light-blue-500 focus:ring-1 focus:ring-light-blue-500 focus:outline-none shadow-inner border-1 bg-white text-slate-300 py-2 px-1 rounded-lg outline-1"
+              placeholder="search info"
+            />
+            <button
+              id="searchBtn"
+              type="submit"
+              class="shadow-inner bg-slate-500 text-slate-300 border-0 rounded-lg outline-1"
+            >
+              Search
+            </button>
+          </div>
         </form>
-        <button
-          class="hover:bg-light-blue-200 hover:text-light-blue-800 group flex items-center rounded-md bg-light-blue-100 text-light-blue-600 text-sm font-medium px-4 py-2"
-        ></button>
+
         <ul
+          id="program"
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4"
         >
           <li id="program-info" class="hover:shadow-lg flex rounded-lg">

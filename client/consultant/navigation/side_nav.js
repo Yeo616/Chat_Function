@@ -1,3 +1,5 @@
+// 옆부분 메뉴
+
 class SideNav extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `

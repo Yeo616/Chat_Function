@@ -5,8 +5,12 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   const messageEl = document.getElementById("message");
   const messageBoxEl = document.getElementById("message-box");
   const programInfo = document.getElementById("program-info");
-
   programInfo.addEventListener("click", programInfoSend);
+
+  const searchBtn = document.getElementById("searchBtn");
+  searchBtn.addEventListener("click", searchHandler);
+
+  async function searchHandler() {}
 
   function programInfoSend() {
     let programData = "test program";
