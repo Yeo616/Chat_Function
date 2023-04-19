@@ -16,8 +16,8 @@ def origins():
     ]
     return origins
 
-def addedMiddleware() -> CORSMiddleware:
-    middleware = CORSMiddleware(
+def addedMiddleware(app,origin=None):
+    middleware = app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],        # 요청을 허용해야하는 origin목록
         # allow_origins=origins,
@@ -25,5 +25,7 @@ def addedMiddleware() -> CORSMiddleware:
         allow_methods=["*"],        # 허용되어야하는 http 메서드 목록, 기본값은 GET
         allow_headers=["*"],        # HTTP 요청 헤더 목록, 기본값은 [], 
     )
+    # https://fastapi.tiangolo.com/tutorial/cors/
+
     return middleware
 # https://fastapi.tiangolo.com/tutorial/cors/

@@ -2,7 +2,6 @@ import logging
 from fastapi import FastAPI, APIRouter
 import pymongo
 
-
 def get_logger():
     # 로그 설정
     # 로그 생성

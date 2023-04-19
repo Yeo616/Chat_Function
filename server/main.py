@@ -10,8 +10,8 @@ app.include_router(get_recent.router)
 app.include_router(get_done.router)
 app.include_router(get_search.router)
 
-origins()
-addedMiddleware()
+# origins()
+addedMiddleware(app)
 
 @app.get('/')
 def test_index():
