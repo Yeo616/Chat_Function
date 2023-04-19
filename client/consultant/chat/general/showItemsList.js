@@ -2,6 +2,11 @@
 // programList는 document의 <ul>요소여야함
 import { programInfoSend } from "../general/sent_pg.js";
 
+export function NoDuplicateResultes(msg) {
+  while (msg.firstChild) {
+    msg.removeChild(msg.firstChild);
+  }
+}
 export function showItemsList(items, programList, messageBoxEl) {
   items.forEach((i) => {
     const li = document.createElement("li");

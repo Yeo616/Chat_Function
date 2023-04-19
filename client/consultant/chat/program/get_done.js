@@ -1,4 +1,7 @@
-import { showItemsList } from "../general/showItemsList.js";
+import {
+  showItemsList,
+  NoDuplicateResultes,
+} from "../general/showItemsList.js";
 
 const programDoneBtn = document.getElementById("programDoneBtn");
 programDoneBtn.addEventListener("click", programDoneBtnHandler);
@@ -9,9 +12,8 @@ const messageBoxEl = document.getElementById("message-box");
 // 만료된 프로그램 불러오기
 async function programDoneBtnHandler() {
   // 다시 불러낼 때, 중복되어 호출 못하게 삭제
-  while (programList.firstChild) {
-    programList.removeChild(programList.firstChild);
-  }
+  NoDuplicateResultes(programList);
+
   try {
     const response = await fetch("http://127.0.0.1:8000/program/done");
     console.log(response);

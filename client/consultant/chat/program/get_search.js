@@ -1,4 +1,7 @@
-import { showItemsList } from "../general/showItemsList.js";
+import {
+  showItemsList,
+  NoDuplicateResultes,
+} from "../general/showItemsList.js";
 
 document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   DOMEvent.preventDefault();
@@ -16,9 +19,8 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
 
     // 빈값
     if (value == "") {
-      while (errorMsg.firstChild) {
-        errorMsg.removeChild(errorMsg.firstChild);
-      }
+      NoDuplicateResultes(errorMsg);
+
       console.error("입력된 값이 없습니다."); // 에러 메시지 출력
       const p = document.createElement("p");
       p.className = "text-lg text-red-500 ";
@@ -39,9 +41,8 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
     }
 
     try {
-      while (errorMsg.firstChild) {
-        errorMsg.removeChild(errorMsg.firstChild);
-      }
+      NoDuplicateResultes(errorMsg);
+
       const response = await fetch(
         `http://127.0.0.1:8000/program/search?data=${value}`
       );
@@ -56,16 +57,25 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       const data = await response.json();
       console.log("data : " + data);
 
-      const items = data["result"];
+      const items = data["result"] || []; // result가 배열이 아닌 경우, 빈 배열([])을 사용함
       console.log("items : ", items);
 
-      while (programList.firstChild) {
-        programList.removeChild(programList.firstChild);
+      if (items == "None data") {
+        NoDuplicateResultes(errorMsg);
+        NoDuplicateResultes(programList);
+
+        console.error("데이터가 존재하지 않습니다."); // 에러 메시지 출력
+        const p = document.createElement("p");
+        p.className = "text-lg text-red-500 ";
+        p.innerHTML = "데이터가 존재하지 않습니다.";
+        errorMsg.appendChild(p);
+        return; // 함수 종료
       }
+
       showItemsList(items, programList, messageBoxEl);
     } catch (error) {
-      console.error("에러 발생!");
-      alert(error.message);
+      console.error("에러", error.message);
+      alert("에러", error.message);
     }
   }
 });

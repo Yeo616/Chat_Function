@@ -1,8 +1,9 @@
 from fastapi import WebSocketDisconnect,WebSocket,WebSocketException,FastAPI,HTTPException
-from copy import deepcopy, copy
+from copy import copy
 import json
 from routers.programs import get_recent,get_done,get_search
 from middleWare import origins, addedMiddleware
+
 
 app = FastAPI() 
 
@@ -46,6 +47,10 @@ async def websocket_endpoint(websocket:WebSocket,client_id:str):
             await broadcast_to_room(data,websocket)
     except WebSocketDisconnect as e:
         remove_room(websocket)
+    
+    finally:
+        await websocket.close()
+        print("Websocket connection closed.")
 
 
 

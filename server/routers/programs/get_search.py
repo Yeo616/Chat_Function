@@ -29,12 +29,13 @@ async def program_search(data:str=Query(None)):
     # 검색 결과에서 가져올 데이터만 추린다. 
     results = db.find(query)
     results = list(results)
-    logger.info("data has found.")
-    logger.info(f"results : {results}")
 
     # 결과값이 없으면
     if len(results) <= 0:
-        return {"results": "No data found"}
+        return {"result": "None data"}
+    
+    logger.info("data has found.")
+    logger.info(f"result : {results}")
 
     json_list = json.loads(json_util.dumps(results))
     logger.info(f"List in Json : {json_list}")

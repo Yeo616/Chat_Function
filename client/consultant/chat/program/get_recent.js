@@ -1,4 +1,7 @@
-import { showItemsList } from "../general/showItemsList.js";
+import {
+  showItemsList,
+  NoDuplicateResultes,
+} from "../general/showItemsList.js";
 
 const programSearchBtn = document.getElementById("programRecentBtn");
 programSearchBtn.addEventListener("click", programRecentBtnHandler);
@@ -9,9 +12,8 @@ const programList = document.getElementById("program");
 // 오늘 날짜 기준 이후 프로그램 불러오기
 async function programRecentBtnHandler() {
   // 다시 불러낼 때, 중복되어 호출 못하게 삭제
-  while (programList.firstChild) {
-    programList.removeChild(programList.firstChild);
-  }
+  NoDuplicateResultes(programList);
+
   try {
     const response = await fetch("http://127.0.0.1:8000/program/recent");
     console.log(response);

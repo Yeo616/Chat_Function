@@ -1,3 +1,5 @@
+import { userId, connect, socket, messageAppend } from "../socket.js";
+
 document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   DOMEvent.preventDefault();
 
@@ -31,31 +33,8 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       .firstElementChild;
     messageBoxEl.append(msgEl);
   }
-
-  // Create WebSocket connection.
-  const socket = new WebSocket(`ws://localhost:8000/ws/${userId}`);
-
-  // // Connection opened
-  socket.addEventListener("open", (socketEvent) => {
-    console.log("Connection is open");
-  });
-
-  // Close connection
-  socket.addEventListener("close", (socketEvent) => {
-    console.log("Connection is closed");
-  });
-
-  socket.onerror = (error) => {
-    // 에러 발생
-    console.log("Error has occured:", error);
-  };
-
-  // // Listen for messages
-  socket.addEventListener("message", (socketEvent) => {
-    console.log("Message from server ", socketEvent.data);
-    // console.log(JSON.parse(socketEvent.data));
-    messageAppend(false, JSON.parse(socketEvent.data));
-  });
+  //TODO: coonection does not work
+  connect(messageBoxEl);
 
   const errorMap = new Map();
   messageFormEl.addEventListener("submit", (event) => {
@@ -68,8 +47,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       errorMap.set("invalid_message", "Please enter a message");
     } else {
       socket.send(messageEl.value); //입력창에 있는 메시지 보내기
-
-      messageAppend(true, { msg: messageEl.value, userId: null });
+      messageAppend(true, { msg: messageEl.value, userId: null }, messageBoxEl);
       errorMap.clear();
       event.target.reset();
     }
