@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
 
   // Unique ID for all user
   const userId = window.crypto.randomUUID();
-  function messageAppend(myMessage, msgContent) {
+  function messageAppend(myMessage, msgContent, messageBoxEl) {
     let sideOff = "justify-start",
       bgColor = "bg-slate-700",
       specificUser = userId;

@@ -37,6 +37,42 @@
           class="message-box w-full flex-col h-96 overflow-y-scroll bg-slate-500"
           id="message-box"
         >
+          <p class="text-slate-100 p-5">안녕하세요! 상담주제를 선택해주세요!</p>
+
+          <div
+            id="options-container"
+            class="box-bordered p-1 w-8/12 text-slate-100 rounded m-3 justify-center"
+          >
+            <!-- <div id="options-container"> -->
+            <button
+              id="option1"
+              class="option bg-blue-50 px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+              data-value="비용"
+            >
+              비용
+            </button>
+            <button
+              id="option2"
+              class="option bg-blue-50 px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+              data-value="프로그램"
+            >
+              프로그램
+            </button>
+            <button
+              id="option3"
+              class="option bg-blue-50 px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+              data-value="일정"
+            >
+              일정
+            </button>
+            <button
+              id="option4"
+              class="option bg-blue-50 px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+              data-value="기타"
+            >
+              기타
+            </button>
+          </div>
           <!-- <div class="w-full flex justify-start">
                     <div class="box-bordered p-1 bg-slate-500 w-8/12 text-slate-100 rounded mb-1">
                         <p>His message</p>
@@ -66,5 +102,6 @@
       <div class="container mx-auto">This is footer</div>
     </footer>
     <script type="module" src="main.js"></script>
+    <script type="module" src="../messages.js"></script>
   </body>
 </html>
