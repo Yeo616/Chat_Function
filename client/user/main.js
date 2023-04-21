@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
     messageBoxEl.append(msgEl);
   }
   //TODO: coonection does not work
-  connect(messageBoxEl);
+  connect(true, messageBoxEl);
 
   const errorMap = new Map();
   messageFormEl.addEventListener("submit", (event) => {

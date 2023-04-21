@@ -26,6 +26,7 @@ class ChatNav extends HTMLElement {
                 >Contact</a
               >
             </li>
+
           </ul>
         </nav>
       </div>

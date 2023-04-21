@@ -46,7 +46,7 @@ export function DefaultMessage(msgContent, messageBoxEl) {
   messageBoxEl.append(msgEl);
 }
 
-export function connect(messageBoxEl) {
+export function connect(ifuser, messageBoxEl) {
   // Connection opened
   socket.addEventListener("open", (socketEvent) => {
     console.log("Connection is open");
@@ -58,8 +58,11 @@ export function connect(messageBoxEl) {
   // Close connection
   socket.addEventListener("close", (socketEvent) => {
     console.log("Connection is closed");
+
     // 연결이 끊어졌음을 클라이언트에게 알리는 메시지 출력
-    DefaultMessage({ msg: "Connection is closed" }, messageBoxEl);
+    if (!ifuser) {
+      DefaultMessage({ msg: "Connection is closed" }, messageBoxEl);
+    }
 
     // 자동으로 재연결하는 코드
     setTimeout(() => {

@@ -1,12 +1,22 @@
 // document.addEventListener("DOMContentLoaded", (DOMEvent) => {
 // DOMEvent.preventDefault();
-import { userId, connect, socket, messageAppend } from "../socket.js";
+import { userId, connect, messageAppend, DefaultMessage } from "../socket.js";
 
 const messageFormEl = document.getElementById("message-form");
 const messageEl = document.getElementById("message");
 const messageBoxEl = document.getElementById("message-box");
+const chatClosebtn = document.getElementById("chat-close");
 
-connect(messageBoxEl);
+connect(false, messageBoxEl);
+
+const socket = new WebSocket(`ws://localhost:8000/ws/${userId}`);
+
+chatClosebtn.addEventListener("click", () => {
+  // alert("Close");
+  socket.addEventListener("close", () => {
+    console.log("Connection is closed");
+  });
+});
 
 const errorMap = new Map();
 messageFormEl.addEventListener("submit", (event) => {
