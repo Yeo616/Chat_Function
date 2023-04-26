@@ -59,8 +59,10 @@ export function connect(ifuser, messageBoxEl) {
   socket.addEventListener("close", (socketEvent) => {
     console.log("Connection is closed");
 
-    // 연결이 끊어졌음을 클라이언트에게 알리는 메시지 출력
+    // 연결이 끊어졌음을 클라에게 알리지 않는다.
     if (!ifuser) {
+      DefaultMessage({ msg: "Connection is closed" }, messageBoxEl);
+    } else {
       DefaultMessage({ msg: "Connection is closed" }, messageBoxEl);
     }
 
