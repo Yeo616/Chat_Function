@@ -1,4 +1,4 @@
-import { socket } from "../../../socket.js";
+import { getSocket } from "../../../socket.js";
 
 // 메세지 클릭하면, 대화창으로 가는 함수
 export function programInfoSend(

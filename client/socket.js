@@ -1,10 +1,31 @@
 // Unique ID for all user
-export const userId = window.crypto.randomUUID();
+// export const userId = window.crypto.randomUUID();
 
 // Create WebSocket connection.
-export const socket = new WebSocket(`ws://localhost:8000/ws/${userId}`);
+export function getUserId(ifUser) {
+  var userInput = prompt("대화명은 최소 2글자 이상입니다. \n\n대화명 : ");
 
-export function messageAppend(myMessage, msgContent, messageBoxEl) {
+  if (userInput == null || userInput.length <= 1) {
+    alert("대화명 입력 필요");
+    var userInput = prompt("대화명은 최소 2글자 이상입니다. \n\n대화명 : ");
+  }
+
+  if (!ifUser) {
+    // 상담사 대화명
+    var userId = "상담사 " + userInput;
+  } else {
+    var userId = userInput;
+  }
+  console.log("대화명(userInput) : ", userInput);
+  // userId 내보내기
+  return userId;
+}
+
+export function getSocket(userId) {
+  return new WebSocket(`ws://localhost:8000/ws/${userId}`);
+}
+
+export function messageAppend(userId, myMessage, msgContent, messageBoxEl) {
   let sideOff = "justify-start",
     bgColor = "bg-slate-700",
     specificUser = userId;
@@ -46,7 +67,8 @@ export function DefaultMessage(msgContent, messageBoxEl) {
   messageBoxEl.append(msgEl);
 }
 
-export function connect(ifuser, messageBoxEl) {
+export function connect(userId, ifuser, messageBoxEl) {
+  var socket = getSocket(userId);
   // Connection opened
   socket.addEventListener("open", (socketEvent) => {
     console.log("Connection is open");
@@ -80,7 +102,6 @@ export function connect(ifuser, messageBoxEl) {
   // Listen for messages
   socket.addEventListener("message", (socketEvent) => {
     console.log("Message from server ", socketEvent.data);
-    // console.log(JSON.parse(socketEvent.data));
-    messageAppend(false, JSON.parse(socketEvent.data), messageBoxEl);
+    messageAppend(userId, false, JSON.parse(socketEvent.data), messageBoxEl);
   });
 }

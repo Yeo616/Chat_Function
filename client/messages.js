@@ -1,12 +1,14 @@
-import { socket } from "./socket.js";
+import { getSocket } from "./socket.js";
+import { userId } from "./user/main.js";
 
 const messageBox = document.getElementById("message-box");
 const optionsContainer = document.getElementById("options-container");
 
-// 상담주제 설정
+// 상담주제 설정: 유저측
 optionsContainer.addEventListener(
   "click",
   (event) => {
+    var socket = getSocket(userId);
     if (event.target.classList.contains("option")) {
       const selectedOption = event.target.dataset.value;
       // 선택한 항목을 대화창에 표시

@@ -1,40 +1,18 @@
-import { userId, connect, socket, messageAppend } from "../socket.js";
+import { getUserId, connect, getSocket, messageAppend } from "../socket.js";
+
+export const userId = getUserId(true);
 
 document.addEventListener("DOMContentLoaded", (DOMEvent) => {
   DOMEvent.preventDefault();
+
+  // 추후 로그인 정보로 바꿔야함
+  const socket = getSocket(userId);
 
   const messageFormEl = document.getElementById("message-form");
   const messageEl = document.getElementById("message");
   const messageBoxEl = document.getElementById("message-box");
 
-  // Unique ID for all user
-  const userId = window.crypto.randomUUID();
-  function messageAppend(myMessage, msgContent, messageBoxEl) {
-    let sideOff = "justify-start",
-      bgColor = "bg-slate-700",
-      specificUser = userId;
-    if (myMessage) {
-      sideOff = "justify-end";
-      bgColor = "bg-indigo-500";
-    } else {
-      specificUser = msgContent.userId;
-    }
-    const msgString = `
-            <div class="w-full flex ${sideOff}">
-                <div class="box-bordered p-1 ${bgColor} w-8/12 text-slate-100 rounded mb-1">
-                <p>${specificUser}</p>
-                <p>${msgContent.msg}</p>
-                </div>
-            </div>
-            `;
-
-    const domParser = new DOMParser();
-    const msgEl = domParser.parseFromString(msgString, "text/html").body
-      .firstElementChild;
-    messageBoxEl.append(msgEl);
-  }
-  //TODO: coonection does not work
-  connect(true, messageBoxEl);
+  connect(userId, true, messageBoxEl);
 
   const errorMap = new Map();
   messageFormEl.addEventListener("submit", (event) => {
@@ -47,7 +25,7 @@ document.addEventListener("DOMContentLoaded", (DOMEvent) => {
       errorMap.set("invalid_message", "Please enter a message");
     } else {
       socket.send(messageEl.value); //입력창에 있는 메시지 보내기
-      messageAppend(true, { msg: messageEl.value, userId: null }, messageBoxEl);
+      true, { msg: messageEl.value, userId: null }, messageBoxEl;
       errorMap.clear();
       event.target.reset();
     }
