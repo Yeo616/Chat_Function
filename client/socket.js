@@ -26,20 +26,22 @@ export function getSocket(userId) {
 }
 
 export function messageAppend(userId, myMessage, msgContent, messageBoxEl) {
-  let sideOff = "justify-start",
-    bgColor = "bg-slate-700",
-    specificUser = userId;
-
-  if (myMessage) {
+  console.log("userId : " + userId);
+  console.log("myMessage : " + myMessage);
+  console.log("msgContent : " + msgContent.msg);
+  console.log("messageBoxEl : " + messageBoxEl);
+  let sideOff = "justify-end";
+  let bgColor = "bg-indigo-500";
+  if (!myMessage) {
     sideOff = "justify-end";
     bgColor = "bg-indigo-500";
-  } else {
-    specificUser = msgContent.userId;
+    // let specificUser = msgContent.userId;
   }
+
   const msgString = `
             <div class="w-full flex ${sideOff}">
                 <div class="box-bordered p-1 ${bgColor} w-8/12 text-slate-100 rounded mb-1">
-                <p>${specificUser}</p>
+                <p>${userId}</p>
                 <p>${msgContent.msg}</p>
                 </div>
             </div>
@@ -67,14 +69,19 @@ export function DefaultMessage(msgContent, messageBoxEl) {
   messageBoxEl.append(msgEl);
 }
 
-export function connect(userId, ifuser, messageBoxEl) {
-  var socket = getSocket(userId);
+export function connect(userId, ifuser, messageBoxEl, onOpenCallback) {
+  var socket = new WebSocket(`ws://localhost:8000/ws/${userId}`);
+
   // Connection opened
   socket.addEventListener("open", (socketEvent) => {
     console.log("Connection is open");
 
     // 연결 되었을 때 클라이언트에게 알리는 메시지 출력
     DefaultMessage({ msg: "Connected" }, messageBoxEl);
+    // 콜백 함수가 제공되면 실행
+    if (onOpenCallback) {
+      onOpenCallback(socket);
+    }
   });
 
   // Close connection
@@ -101,7 +108,8 @@ export function connect(userId, ifuser, messageBoxEl) {
 
   // Listen for messages
   socket.addEventListener("message", (socketEvent) => {
-    console.log("Message from server ", socketEvent.data);
+    console.log("message : socketEvent ", socketEvent);
+    console.log("message : Message from server ", socketEvent.data);
     messageAppend(userId, false, JSON.parse(socketEvent.data), messageBoxEl);
   });
 }

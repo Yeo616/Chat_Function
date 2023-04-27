@@ -1,4 +1,4 @@
-import { getUserId, connect, getSocket, messageAppend } from "../socket.js";
+import { getUserId, connect, getSocket } from "../socket.js";
 
 export const userId = getUserId(true);
 
