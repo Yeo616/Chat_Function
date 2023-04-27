@@ -11,14 +11,14 @@ class SideNav extends HTMLElement {
               <button
                 class="p-2 m-2 bg-purple-600 bg-opacity-75 rounded-lg text-white hover:text-red-500 hover:bg-indigo-200"
               >
-                Inquiries
+                <a href = "./inquiries.html">Inquiries</a>
               </button>
             </li>
             <li style="list-style: none">
               <button
                 class="p-2 m-2 bg-purple-600 bg-opacity-75 rounded-lg text-white hover:text-red-500 hover:bg-indigo-200"
               >
-                Chating
+                <a href = "./consultant.html">Chating</a>
               </button>
             </li>
             <li style="list-style: none">

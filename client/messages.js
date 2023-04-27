@@ -3,6 +3,7 @@ import { socket } from "./socket.js";
 const messageBox = document.getElementById("message-box");
 const optionsContainer = document.getElementById("options-container");
 
+// 상담주제 설정
 optionsContainer.addEventListener(
   "click",
   (event) => {
@@ -31,19 +32,26 @@ optionsContainer.addEventListener(
       messageBox.append(msgEl);
 
       // 버튼 누르고 나면, 회색 버튼으로 바뀌게 할거임.
+      const buttons = optionsContainer.querySelectorAll(".option");
+      buttons.forEach((button) => {
+        button.classList.remove(
+          "bg-blue-50",
+          "text-purple-600",
+          "border-purple-200",
+          "hover:text-white",
+          "hover:bg-purple-600",
+          "hover:border-transparent",
+          "focus:outline-none",
+          "focus:ring-2",
+          "focus:ring-purple-600",
+          "focus:ring-offset-2"
+        );
+        button.classList.add("bg-gray-300", "text-gray-600", "border-gray-300");
+        button.disabled = true;
+      });
     }
-    // optionsContainer.target.classList.remove(
-    //   "hover:text-white",
-    //   "hover:bg-purple-600",
-    //   "hover:border-transparent",
-    //   "focus:outline-none",
-    //   "focus:ring-2",
-    //   "focus:ring-purple-600",
-    //   "focus:ring-offset-2",
-    //   "bg-blue-50",
-    //   "text-purple-600"
-    // );
   },
+  // 한 번만 실행
   { once: true }
 );
 
@@ -52,45 +60,3 @@ function displayMessage(message, messageBox) {
   msgElement.textContent = message;
   messageBox.appendChild(msgElement);
 }
-
-// export function messageAppend(myMessage, msgContent, messageBoxEl) {
-//   let sideOff = "justify-start",
-//     bgColor = "bg-slate-700",
-//     specificUser = userId;
-
-//   if (myMessage) {
-//     sideOff = "justify-end";
-//     bgColor = "bg-indigo-500";
-//   } else {
-//     specificUser = msgContent.userId;
-//   }
-//   const msgString = `
-//             <div class="w-full flex ${sideOff}">
-//                 <div class="box-bordered p-1 ${bgColor} w-8/12 text-slate-100 rounded mb-1">
-//                 <p>${specificUser}</p>
-//                 <p>${msgContent.msg}</p>
-//                 </div>
-//             </div>
-//             `;
-
-//   const domParser = new DOMParser();
-//   const msgEl = domParser.parseFromString(msgString, "text/html").body
-//     .firstElementChild;
-//   messageBoxEl.append(msgEl);
-// }
-
-// // 안내 메시지
-// export function DefaultMessage(msgContent, messageBoxEl) {
-//   const msgString = `
-//             <div class="w-full flex justify-center item-center">
-//                 <div class="box-bordered p-1 w-8/12 text-slate-100 rounded mb-1">
-//                 <p>---------   ${msgContent.msg}   ---------</p>
-//                 </div>
-//             </div>
-//             `;
-
-//   const domParser = new DOMParser();
-//   const msgEl = domParser.parseFromString(msgString, "text/html").body
-//     .firstElementChild;
-//   messageBoxEl.append(msgEl);
-// }

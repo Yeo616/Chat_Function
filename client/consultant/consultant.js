@@ -5,17 +5,16 @@ import { userId, connect, messageAppend, DefaultMessage } from "../socket.js";
 const messageFormEl = document.getElementById("message-form");
 const messageEl = document.getElementById("message");
 const messageBoxEl = document.getElementById("message-box");
-const chatClosebtn = document.getElementById("chat-close");
 
+// 웹 소켓 연결
 connect(false, messageBoxEl);
 
+// 웹 소켓 통신 끊는 기능
+const chatClosebtn = document.getElementById("chat-close");
 const socket = new WebSocket(`ws://localhost:8000/ws/${userId}`);
-
 chatClosebtn.addEventListener("click", () => {
-  // alert("Close");
-  socket.addEventListener("close", () => {
-    console.log("Connection is closed");
-  });
+  DefaultMessage({ msg: "Connection is closed" }, messageBoxEl);
+  socket.close();
 });
 
 const errorMap = new Map();
