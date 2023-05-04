@@ -1,12 +1,31 @@
 # websocket으로 작업하는 python
 
-from fastapi import WebSocketDisconnect,WebSocket,FastAPI,HTTPException
+from fastapi import Request,WebSocketDisconnect,WebSocket,FastAPI,HTTPException
+from fastapi.responses import HTMLResponse
 from copy import copy
 import json
 from routers.programs import get_recent,get_done,get_search
 from middleWare import origins, addedMiddleware
+from fastapi.templating import Jinja2Templates
+
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/")
+async def read_item(request: Request):
+    return templates.TemplateResponse("item.html", {"request": request})
 
 app = FastAPI() 
+
+# # 개발/디버깅용으로 사용할 앱 구동 함수
+# def run():
+#     import uvicorn
+#     uvicorn.run(app)
+# ​
+# # python main.py로 실행할경우 수행되는 구문
+# # uvicorn main:app 으로 실행할 경우 아래 구문은 수행되지 않는다.
+# if __name__ == "__main__":
+#     run()
 
 app.include_router(get_recent.router)
 app.include_router(get_done.router)
@@ -14,10 +33,6 @@ app.include_router(get_search.router)
 
 # origins()
 addedMiddleware(app)
-
-@app.get('/')
-def test_index():
-    return{"detail":"server is running"}
 
 room_list=[]
 
@@ -53,4 +68,16 @@ async def websocket_endpoint(websocket:WebSocket,client_id:str):
         await websocket.close()
         print("Websocket connection closed.")
 
+
+
+
+@app.websocket("/ws/{room_id}")
+async def get_room(websocket:WebSocket,room_id:str):
+    print(f"client connected : {websocket.client}")
+    await websocket.accept() # client의 websocket접속 허용
+    await websocket.send_text(f"Welcome client : {websocket.client}")
+    while True:
+        data = await websocket.receive_text()  # client 메시지 수신대기
+        print(f"message received : {data} from : {websocket.client}")
+        await websocket.send_text(f"Message text was: {data}") # client에 메시지 전달
 

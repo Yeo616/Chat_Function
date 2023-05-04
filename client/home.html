@@ -1,0 +1,31 @@
+<!-- 처음 진입 화면 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" , href="https://unpkg.com/mvp.css@1.12/mvp.css" />
+  </head>
+  <body>
+    <div>
+      <button id="userBtn">User</button>
+      <button id="consulBtn">Consultant</button>
+    </div>
+    <script>
+      const userBtn = document.getElementById("userBtn");
+      userBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "./user/index.html";
+      });
+
+      const consulBtn = document.getElementById("consulBtn");
+      consulBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "./consultant/consultant.html";
+      });
+    </script>
+  </body>
+</html>
