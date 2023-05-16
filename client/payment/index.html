@@ -11,12 +11,13 @@
       type="text/javascript"
       src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
     ></script>
-
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script> -->
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <title>Sample Payment</title>
   </head>
   <body>
-    <div>
+    <!-- <div>
       결제 방법
       <select id="selectPG">
         <option value="kcp">NHN KCP</option>
@@ -26,113 +27,53 @@
         <option value="naverpay">네이버페이</option>
         <option value="payco">페이코</option>
       </select>
-    </div>
-    <div>
-      <input type="radio" name="payment" value="kcp" id="kcp" />
-      <label for="option1">kcp</label>
+    </div> -->
+    <form>
+      <div>
+        상품:
+        <input
+          checked
+          type="radio"
+          name="merchant"
+          value="merchant1"
+          id="merchant1"
+        />
+        <label for="merchant1">merchant1 $1</label>
 
-      <input type="radio" name="payment" value="tosspay" id="tosspay" />
-      <label for="tosspay">tosspay</label>
+        <input type="radio" name="merchant" value="merchant2" id="merchant2" />
+        <label for="merchant2">merchant2 $2</label>
 
-      <input type="radio" name="payment" value="nice" id="nice" />
-      <label for="nice">nice</label>
+        <input type="radio" name="merchant" value="merchant3" id="merchant3" />
+        <label for="merchant3">merchant3 $3</label>
+      </div>
 
-      <input type="radio" name="payment" value="kakaopay" id="kakaopay" />
-      <label for="kakaopay">kakaopay</label>
+      <div>
+        결제 방법:
+        <input type="radio" name="payment" value="kcp" id="kcp" checked />
+        <label for="kcp">kcp</label>
 
-      <input type="radio" name="payment" value="naverpay" id="naverpay" />
-      <label for="naverpay">naverpay</label>
+        <input type="radio" name="payment" value="tosspay" id="tosspay" />
+        <label for="tosspay">tosspay</label>
 
-      <input type="radio" name="payment" value="payco" id="payco" />
-      <label for="payco">payco</label>
-    </div>
-    <div></div>
+        <input type="radio" name="payment" value="nice" id="nice" />
+        <label for="nice">nice</label>
+
+        <input type="radio" name="payment" value="kakaopay" id="kakaopay" />
+        <label for="kakaopay">kakaopay</label>
+
+        <input type="radio" name="payment" value="naverpay" id="naverpay" />
+        <label for="naverpay">naverpay</label>
+
+        <input type="radio" name="payment" value="payco" id="payco" />
+        <label for="payco">payco</label>
+      </div>
+      <div>
+        <button type="submit">결제하기</button>
+        <!-- 결제하기 버튼 생성 -->
+      </div>
+    </form>
     <!-- 참고: https://portone.gitbook.io/docs/sdk/javascript-sdk/payrq -->
-    <button onclick="requestPay()">결제하기</button>
-    <!-- 결제하기 버튼 생성 -->
 
-    <script>
-      var kcp = document.getElementById("kcp");
-      var tosspay = document.getElementById("tosspay");
-      var nice = document.getElementById("nice");
-      var kakaopay = document.getElementById("kakaopay");
-      var naverpay = document.getElementById("naverpay");
-      var payco = document.getElementById("payco");
-
-      //   const selectedPG = document.getElementById("selectPG");
-      //   var selectPG = selectedPG.value;
-      var selectPG;
-
-      switch (selectPG) {
-        case kcp.checked:
-          console.log("NHN KCP를 선택했습니다.");
-          selectPG = kcp;
-          pay_method = "card";
-          break;
-        case "tosspay":
-          console.log("토스간편결제를 선택했습니다.");
-          selectPG = tosspay;
-          pay_method = "tosspay";
-          break;
-        case "nice":
-          console.log("나이스페이를 선택했습니다.");
-          selectPG = nice;
-          pay_method = "card";
-          break;
-        case "kakaopay":
-          console.log("카카오페이를 선택했습니다.");
-          selectPG = kakaopay;
-          pay_method = "kakaopay";
-          break;
-        case "naverpay":
-          console.log("네이버페이를 선택했습니다.");
-          selectPG = naverpay;
-          pay_method = "naverpay";
-          break;
-        case "payco":
-          console.log("페이코를 선택했습니다.");
-          selectPG = payco;
-          pay_method = "card";
-          break;
-        default:
-          console.log("선택된 결제 방법이 없습니다.");
-          alert("결제방식을 선택해주십시오");
-      }
-
-      var IMP = window.IMP;
-      IMP.init("imp67011510");
-
-      var today = new Date();
-      var hours = today.getHours(); // 시
-      var minutes = today.getMinutes(); // 분
-      var seconds = today.getSeconds(); // 초
-      var milliseconds = today.getMilliseconds();
-      var makeMerchantUid = hours + minutes + seconds + milliseconds;
-
-      function requestPay() {
-        IMP.request_pay(
-          {
-            pg: selectPG,
-            pay_method: "card",
-            merchant_uid: "IMP" + 123, //makeMerchantUid,
-            name: "당근 10kg",
-            amount: 1,
-            buyer_email: "Iamport@chai.finance",
-            buyer_name: "아임포트 기술지원팀",
-            buyer_tel: "010-1234-5678",
-            buyer_addr: "서울특별시 강남구 삼성동",
-            buyer_postcode: "123-456",
-          },
-          function (rsp) {
-            // callback
-            if (rsp.success) {
-              console.log(rsp);
-            } else {
-              console.log(rsp);
-            }
-          }
-        );
-      }
-    </script>
+    <script type="module" src="index.js"></script>
   </body>
 </html>

@@ -15,7 +15,12 @@ async function programRecentBtnHandler() {
   NoDuplicateResultes(programList);
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/program/recent");
+    const response = await fetch(
+      `http://${window.location.hostnam}:8000/program/recent`
+    );
+    // window.location.host;("127.0.0.1:5501");
+    // window.location.origin; "http://127.0.0.1:5501";
+    // window.location.hostname; "127.0.0.1";
     console.log(response);
 
     if (response.status !== 200) {

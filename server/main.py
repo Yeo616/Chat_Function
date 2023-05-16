@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from copy import copy
 import json
 from routers.programs import get_recent,get_done,get_search
+from routers.payment import payment
 from middleWare import origins, addedMiddleware
 from fastapi.templating import Jinja2Templates
 
@@ -30,6 +31,7 @@ app = FastAPI()
 app.include_router(get_recent.router)
 app.include_router(get_done.router)
 app.include_router(get_search.router)
+app.include_router(payment.router)
 
 # origins()
 addedMiddleware(app)
@@ -67,8 +69,6 @@ async def websocket_endpoint(websocket:WebSocket,client_id:str):
     finally:
         await websocket.close()
         print("Websocket connection closed.")
-
-
 
 
 @app.websocket("/ws/{room_id}")
