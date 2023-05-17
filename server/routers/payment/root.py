@@ -1,5 +1,4 @@
 import logging
-from fastapi import FastAPI, APIRouter
 import pymongo
 
 def get_logger():
@@ -18,5 +17,5 @@ def get_logger():
 def MongoDB():
     # DB연결
     myclient = pymongo.MongoClient()
-    db = myclient["test"]["program_db"]
+    db = myclient["test"]["payment_db"]
     return db

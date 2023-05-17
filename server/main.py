@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from copy import copy
 import json
 from routers.programs import get_recent,get_done,get_search
-from routers.payment import payment
+from routers.payment import post_payment
 from middleWare import origins, addedMiddleware
 from fastapi.templating import Jinja2Templates
 
@@ -31,7 +31,7 @@ app = FastAPI()
 app.include_router(get_recent.router)
 app.include_router(get_done.router)
 app.include_router(get_search.router)
-app.include_router(payment.router)
+app.include_router(post_payment.router)
 
 # origins()
 addedMiddleware(app)

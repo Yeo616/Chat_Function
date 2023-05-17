@@ -1,6 +1,3 @@
-// import axios from "axios";
-// import axios from "./node_modules/axios/dist/esm/axios.min.js";
-
 const form = document.querySelector("form");
 form.addEventListener("submit", requestPay);
 
@@ -15,12 +12,6 @@ var kakaopay = document.getElementById("kakaopay");
 var naverpay = document.getElementById("naverpay");
 var payco = document.getElementById("payco");
 
-//   const selectedPG = document.getElementById("selectPG");
-//   var selectPG = selectedPG.value;
-
-var IMP = window.IMP;
-IMP.init("imp67011510");
-
 var today = new Date();
 var hours = today.getHours(); // 시
 var minutes = today.getMinutes(); // 분
@@ -28,8 +19,15 @@ var seconds = today.getSeconds(); // 초
 var milliseconds = today.getMilliseconds();
 var makeMerchantUid = hours + minutes + seconds + milliseconds;
 
-function requestPay(event) {
+async function requestPay(event) {
   event.preventDefault();
+  if (window == "undefined" && window.IMP == "undefined") {
+    console.alert("imp가 없습니다");
+    alert("error: imp가 없습니다");
+    return;
+  }
+  var IMP = window.IMP;
+  IMP.init("imp67011510");
 
   var data = new FormData(form);
 
@@ -99,12 +97,31 @@ function requestPay(event) {
       console.log("선택된 결제 방법이 없습니다.");
       return;
   }
+  // 우선, 결제 정보 검증
+  const merchant_uid = "IMP" + makeMerchantUid;
+  await fetch(`https://api.iamport.kr/payments/prepare`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      merchant_uid: merchant_uid,
+      amount: parseInt(price),
+    }),
+  })
+    .then((response) => {
+      response.json();
+    })
+    .then((data) => {
+      console.log("사전검사 데이터 : ", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 
   IMP.request_pay(
     {
       pg: payment,
       pay_method: pay_method,
-      merchant_uid: "IMP" + makeMerchantUid,
+      merchant_uid: merchant_uid,
       name: merchant,
       amount: parseInt(price),
       buyer_email: "guswls9281@bitsol.kr",
@@ -114,22 +131,39 @@ function requestPay(event) {
       buyer_postcode: "123-456",
     },
     (rsp) => {
-      console.log("rsp: " + rsp);
+      console.log(`rsp: ${rsp}`);
+      console.log(rsp);
+
       if (rsp.success) {
-        // axios로 HTTP 요청
-        axios({
-          url: `http://${window.location.hostnam}:8000/payment/redirect`,
-          //   url: `http://127.0.0.1:8000/payment/redirect`,
-          method: "post",
+        // iframe으로 결제장 결과처리 fetch로 HTTP 요청
+        //   url: `http://127.0.0.1:8000/payment/redirect`,
+        fetch(`http://${window.location.hostname}:8000/payment/redirect`, {
+          method: "POST",
           headers: { "Content-Type": "application/json" },
-          data: {
+          body: JSON.stringify({
             imp_uid: rsp.imp_uid,
             merchant_uid: rsp.merchant_uid,
-          },
-        }).then((data) => {
-          // 서버 결제 API 성공시 로직
-          console.log("결제 성공 : ", data);
-        });
+            pg: rsp.pg_provider,
+            pay_method: rsp.pg_type,
+            name: rsp.name,
+            amount: parseInt(price),
+            buyer_email: rsp.buyer_email,
+            buyer_name: rsp.buyer_name,
+            buyer_tel: rsp.buyer_tel,
+            buyer_postcode: rsp.buyer_postcode,
+            status: rsp.status,
+          }),
+        })
+          .then((response) => {
+            response.json();
+          })
+          .then((data) => {
+            // 서버 결제 API 성공시 로직
+            console.log("결제 성공 : ", data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
       } else {
         alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
       }
