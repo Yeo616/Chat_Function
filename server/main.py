@@ -33,6 +33,9 @@ app.include_router(get_done.router)
 app.include_router(get_search.router)
 app.include_router(post_payment.router)
 
+import aws
+app.include_router(aws.router)
+
 # origins()
 addedMiddleware(app)
 
