@@ -8,6 +8,7 @@
     <link rel="stylesheet" , href="https://unpkg.com/mvp.css@1.12/mvp.css" />
   </head>
   <body>
+    <div id="chatbox"></div>
     <form id="form">
       닉네임 입력:
       <input type="text" id="nickName" placeholder="닉네임 입력" /> <br />
@@ -18,38 +19,55 @@
 
       <button id="btn">전송</button>
     </form>
+    <div id="status"></div>
     <script>
-      //   const chatMessage = {
-      //     sender: "alice",
-      //     recipient: "bob",
-      //     message: "Hello, Bob!",
-      //   };
+      const chatbox = document.getElementById("chatbox");
 
-      //   fetch("http://localhost:8000/chat-log/", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(chatMessage),
-      //   })
-      //     .then((response) => response.json())
-      //     .then((data) => console.log(data))
-      //     .catch((error) => {
-      //       console.error("Error:", error);
-      //     });
       var btn = document.getElementById("btn");
-      btn.addEventListener("click", (event) => {
+      btn.addEventListener("click", async (event) => {
         event.preventDefault();
         var name = document.getElementById("nickName").value;
         var text = document.getElementById("text").value;
         var fileInput = document.getElementById("file-input");
 
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append("file", file);
+        fileUrl = "";
+        const response = await fetch("http://127.0.0.1:8000/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        console.log("response: " + response);
+        console.log(response);
+
+        var file_url = "";
+        var file_name = "";
+
+        if (response.ok) {
+          let result = await response.json();
+          let imgElement = document.createElement("img");
+          imgElement.src = result.file_url;
+          file_url = result.file_url;
+          file_name = result.file_name;
+          imgElement.style.width = "200px";
+          imgElement.style.height = "auto";
+          chatbox.appendChild(imgElement);
+        } else {
+          console.error("File upload Error: ", error);
+        }
+
         const chatMessage = {
           userName: name,
           test_text: text,
+          file_url: file_url,
+          file_name: file_name,
         };
+        console.log("chatMessage : ");
+        console.log(chatMessage);
 
-        fetch("http://127.0.0.1:8000/awstest", {
+        await fetch("http://127.0.0.1:8000/awstest", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,28 +76,17 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("data.detail: " + data.detail);
-            console.log(data.detail);
+            console.log("data :");
+            console.log(data);
           })
           .catch((error) => {
             console.error("Error: ", error);
           });
 
-        console.log(chatMessage);
-
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append("file", file);
-
-        fetch("http://127.0.0.1:8000/upload", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => console.log(data))
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+        // Clear the input fields
+        document.getElementById("nickName").value = "";
+        document.getElementById("text").value = "";
+        document.getElementById("file-input").value = "";
       });
     </script>
   </body>

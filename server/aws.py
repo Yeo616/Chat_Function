@@ -7,6 +7,7 @@ from datetime import datetime
 from fastapi import APIRouter, Request,UploadFile, File
 from pydantic import BaseModel
 from botocore.exceptions import NoCredentialsError
+import uuid
 
 router = APIRouter()
 
@@ -51,23 +52,26 @@ async def save_chat_message(chat_message:ChatMessage):
     return response
 
 class Input(BaseModel):
+    chat_room_id:str
     userName:str
     test_text:str
-    # request: Request
+    file_url: str
+    
 
 @router.post("/awstest")
 async def save_test_message(input:Input):
     print(input)
     response = table.put_item(
         Item = {
+            'chat_room_id': input.chat_room_id,
             'userName': input.userName,
             'test_text':input.test_text,
-            # 'user_Ip':request.client.host,
+            'file_url': input.file_url,
             'date':datetime.today().strftime("%Y-%m-%d"),    # YYYYmmddHHMMSS 형태의 시간 출력
             'time':datetime.today().strftime("%H:%M")
         }
     )
-    print(f"putItem succeeded: {response}")
+    print(f"putText succeeded: {response}")
     return response
 
 
@@ -79,10 +83,18 @@ s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
 async def upload_file(file: UploadFile = File(...)):
     try:
         # Use 'UploadFile.file' to get file-like object
-        response = s3.upload_fileobj(file.file, AWS_BUCKET_NAME, file.filename)
-        return {"message": "upload successful", "filename": file.filename}
+        file_name = datetime.today().strftime("%Y%m%d%H%M")+str(uuid.uuid4())+".png"
+
+        response = s3.upload_fileobj(file.file, AWS_BUCKET_NAME, file_name)
+        file_url = f"https://s3.{AWS_DEFAULT_REGION}.amazonaws.com/{AWS_BUCKET_NAME}/{file_name}"
+        print(f"file_url: {file_url}")
+
+        return {"message": "upload successful", "file_url": file_url,"file_name":file_name}
     except NoCredentialsError:
+        print(f"credentials not available")
         return {"message": "credentials not available"}
+
+
 
 
 
