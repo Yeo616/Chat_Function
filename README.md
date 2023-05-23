@@ -8,7 +8,7 @@
 > 기대효과
 - 유저의 궁금증을 실시간으로 해결함과 동시에, 대화창에서 바로 결제까지 이뤄지는 one-stop 스무스한 흐름
 
-## Build With
+## Build With  
 -   Frontend: HTML, CSS, JavaScript, Tailwind CSS
 -   Backend: Python, FastAPI
 -   Database: MongoDB
